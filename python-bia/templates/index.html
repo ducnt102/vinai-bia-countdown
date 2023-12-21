@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Countdown Timer</title>
+  <script>
+    function updateCountdown() {
+      fetch('/').then(response => response.text()).then(data => {
+        document.getElementById('countdown').innerText = data;
+      });
+    }
+
+    setInterval(updateCountdown, 1000);
+  </script>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <p id="countdown">{{ countdown_time }}</p>
+</body>
+</html>

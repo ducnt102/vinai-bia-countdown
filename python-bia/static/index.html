@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiển thị count_down</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3em;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown"></div>
+
+  <script>
+    const sound = new Audio("/audio/6seconds.wav"); // create new audio element for 6seconds.wav sound
+    const beep = new Audio("/audio/buzzer.wav"); // create new audio element for buzzer.wav sound
+
+    function getCountdown() {
+      fetch('http://10.111.194.26:18088/')
+        .then(response => response.json())
+        .then(data => {
+          const countdownValue = data.count_down;
+          document.getElementById('countdown').innerHTML = `Countdown: ${countdownValue}`;
+
+          if (countdownValue === 10) {
+            beep.play(); // Phát âm thanh buzzer.wav khi countdown là 10
+          } else if (countdownValue === 6) {
+            sound.play(); // Phát âm thanh 6seconds.wav khi countdown là 6
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    // Gọi hàm getCountdown() mỗi giây để cập nhật giá trị count_down
+    setInterval(getCountdown, 1000);
+
+    // Đảm bảo lấy giá trị count_down ban đầu khi trang được tải
+    getCountdown();
+  </script>
+</body>
+</html>
+
